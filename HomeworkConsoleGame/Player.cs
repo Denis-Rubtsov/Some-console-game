@@ -35,7 +35,6 @@ namespace HomeworkConsoleGame
             this.MaxHP = Convert.ToInt32(1.25 * (MaxHP + 1));
             this.Damage = Convert.ToInt32(1.3 * (Damage + 1));
             this.Gold += entity.Gold;
-            UseItems();
         }
         public void Equip(IEquippable Item)
         {
