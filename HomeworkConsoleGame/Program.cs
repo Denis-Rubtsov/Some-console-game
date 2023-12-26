@@ -30,13 +30,21 @@
             Enemy enemy = Enemies[EnemyNumber - 1];
             while (enemy.HP > 0 && player.HP > 0)
             {
+                Console.WriteLine("Игрок атакует...");
+                int enemyHPBeforeAtack = enemy.HP;
+                Thread.Sleep(2500);
                 player.Attack(enemy);
+                Console.WriteLine($"Нанесено урона: {enemy.HP - enemyHPBeforeAtack}");
                 if (enemy.HP > 0)
                 {
                     Console.Clear();
+                    Console.WriteLine("Враг атакует...");
+                    int playerHPBeforeAttack = player.HP;
+                    Thread.Sleep(4000);
                     enemy.Attack(player);
-                    Console.WriteLine("Ваше состояние: " + player.GetInfo());
-                    Console.WriteLine("Состояние противника: " + enemy.GetInfo());
+                    Console.WriteLine($"Получено урона: {player.HP - playerHPBeforeAttack}");
+                    Console.WriteLine($"Ваше здоровье: {player.HP}");
+                    Console.WriteLine($"Здоровье противника: {enemy.HP}");
                     if (player.HP < 0)
                     {
                         Console.WriteLine("Вы проиграли");
