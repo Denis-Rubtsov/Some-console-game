@@ -54,6 +54,7 @@
 
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Store store = new Store();
             Console.WriteLine("Введите количество здоровья");
             int HP = int.Parse(Console.ReadLine());
