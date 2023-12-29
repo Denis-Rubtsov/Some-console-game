@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeworkConsoleGame
 {
-    public class Entity
+    public abstract class Entity
     {
         public int HP;
         public int LVL;
