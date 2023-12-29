@@ -47,7 +47,7 @@
                     Console.WriteLine($"Здоровье противника: {enemy.HP}");
                     if (player.HP <= 0)
                     {
-                        Console.WriteLine("Вы проиграли");
+                        Console.WriteLine($"Победитель: {enemy.Name}");
                         break;
                     }
                     Console.WriteLine("Подлечиться? (1 - да, 2 - нет)");
@@ -55,7 +55,9 @@
                     if (Healchoice == 2) continue;
                     else if (Healchoice == 1) player.Heal();
                 }
-                else Console.WriteLine("Вы победили битву");
+                else Console.WriteLine("Победитель: игрок");
+                Console.WriteLine("Нажмите любую кнопку для продолжения...");
+                Console.ReadKey();
             }
             player.LevelUp(enemy);
         }
