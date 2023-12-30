@@ -9,7 +9,7 @@ namespace HomeworkConsoleGame
     internal interface IEquippable
     {
         int Coast {  get; }
-        Type Type { get; }
+        EquipmentType EquipmentType { get; }
         int Parameter { get; }
         string GetInfo();
     }

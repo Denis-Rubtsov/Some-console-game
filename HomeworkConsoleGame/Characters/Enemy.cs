@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace HomeworkConsoleGame
 {
-    internal class Enemy : Entity
+    internal class Enemy : Character
     {
         public string Name;
         public Enemy(string name, int hp, int LVL, int damage, int gold) : base(hp, LVL, damage)
@@ -18,7 +18,7 @@ namespace HomeworkConsoleGame
 
         public override string GetInfo()
         {
-            return $"{Name}   здоровье: {HP}, уровень: {LVL}, урон: {Damage}, золото {Gold}";
+            return $"{Name}   здоровье: {Hp}, уровень: {Lvl}, урон: {Damage}, золото {Gold}";
         }
     }
 }
