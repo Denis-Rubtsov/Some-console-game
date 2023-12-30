@@ -2,14 +2,16 @@
 {
     internal class Program
     {
-        static List<Enemy> GetEnemies(Entity entity)
+        static List<Enemy> GetEnemies(Character character)
         {
             string[] names = { "Rufus", "Bear", "Dakota", "Fido", "Vanya", "Samuel", "Koani", "Volodya", "Yiska", "Maggie", "Penny", "Saya", "Princess", "Abby", "Laila", "Sadie", "Olivia", "Starlight", "Talla" };
             Random random = new Random();
             List<Enemy> list = new List<Enemy>();
             for (int i = 1; i <= 3; i++)
             {
-                list.Add(new Enemy(names[random.Next(0, names.Length)], random.Next(entity.HP, entity.HP + 100), random.Next(entity.LVL, entity.LVL + 10), random.Next(entity.Damage, entity.Damage + 5), random.Next(100, 500)));
+                list.Add(new Enemy(names[random.Next(0, names.Length)], random.Next(character.Hp, character.Hp + 100),
+                    random.Next(character.Lvl, character.Lvl + 10), random.Next(character.Damage, character.Damage + 5),
+                    random.Next(100, 500)));
             }
             return list;
         }
@@ -28,24 +30,24 @@
             int EnemyNumber = int.Parse(Console.ReadLine());
             if (EnemyNumber == 0) return;
             Enemy enemy = Enemies[EnemyNumber - 1];
-            while (enemy.HP > 0 && player.HP > 0)
+            while (enemy.Hp > 0 && player.Hp > 0)
             {
                 Console.Clear();
                 Console.WriteLine("Игрок атакует...");
-                int enemyHPBeforeAttack = enemy.HP;
+                int enemyHPBeforeAttack = enemy.Hp;
                 Thread.Sleep(2500);
                 player.Attack(enemy);
-                Console.WriteLine($"Нанесено урона: {enemyHPBeforeAttack - enemy.HP}");
-                if (enemy.HP > 0)
+                Console.WriteLine($"Нанесено урона: {enemyHPBeforeAttack - enemy.Hp}");
+                if (enemy.Hp > 0)
                 {
                     Console.WriteLine("Враг атакует...");
-                    int playerHPBeforeAttack = player.HP;
+                    int playerHPBeforeAttack = player.Hp;
                     Thread.Sleep(4000);
                     enemy.Attack(player);
-                    Console.WriteLine($"Получено урона: {playerHPBeforeAttack - player.HP}");
-                    Console.WriteLine($"Ваше здоровье: {player.HP}");
-                    Console.WriteLine($"Здоровье противника: {enemy.HP}");
-                    if (player.HP <= 0)
+                    Console.WriteLine($"Получено урона: {playerHPBeforeAttack - player.Hp}");
+                    Console.WriteLine($"Ваше здоровье: {player.Hp}");
+                    Console.WriteLine($"Здоровье противника: {enemy.Hp}");
+                    if (player.Hp <= 0)
                     {
                         Console.WriteLine($"Победитель: {enemy.Name}");
                         break;
@@ -59,7 +61,7 @@
                 Console.WriteLine("Нажмите любую кнопку для продолжения...");
                 Console.ReadKey();
             }
-            player.LevelUp(enemy);
+            player.LevelUp(enemy.Lvl, enemy.Gold);
         }
 
         static void Main(string[] args)
@@ -73,7 +75,7 @@
             Console.WriteLine("Введите количество наносимого урона");
             int Damage = int.Parse(Console.ReadLine());
             Player player = new Player(HP, LVL, Damage);
-            while (player.HP > 0)
+            while (player.Hp > 0)
             {
                 Console.Clear();
                 Console.WriteLine("----- Меню -----");

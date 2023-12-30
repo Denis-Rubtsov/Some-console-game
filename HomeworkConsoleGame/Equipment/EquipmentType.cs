@@ -1,18 +1,11 @@
 ﻿namespace HomeworkConsoleGame
 {
-    enum Type
+    internal enum EquipmentType
     {
         Helmet,
         Bib,
         Leggins,
         Boots,
         Weapon
-    }
-    enum Size
-    {
-        Small,
-        Medium,
-        Large,
-        ExtraLarge
     }
 }
