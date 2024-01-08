@@ -11,6 +11,7 @@ namespace HomeworkConsoleGame
         int Coast {  get; }
         EquipmentType EquipmentType { get; }
         int Parameter { get; }
+        EquipmentSize Size { get; }
         string GetInfo();
     }
 }

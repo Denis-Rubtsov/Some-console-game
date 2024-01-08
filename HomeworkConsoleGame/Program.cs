@@ -1,4 +1,5 @@
-﻿namespace HomeworkConsoleGame
+﻿using HomeworkConsoleGame.Characters;
+namespace HomeworkConsoleGame
 {
     internal class Program
     {
@@ -11,7 +12,7 @@
             {
                 list.Add(new Enemy(names[random.Next(0, names.Length)], random.Next(character.Hp, character.Hp + 100),
                     random.Next(character.Lvl, character.Lvl + 10), random.Next(character.Damage, character.Damage + 5),
-                    random.Next(100, 500)));
+                    random.Next(100, 500), random.Next(2500, 5000)));
             }
             return list;
         }
@@ -21,44 +22,44 @@
             Console.Clear();
             List<Enemy> Enemies = GetEnemies(player);
             Console.WriteLine(player.GetInfo());
-            Console.WriteLine("Информация о противниках:");
+            Console.WriteLine("Enemies' info:");
             for (int i = 0; i < Enemies.Count; i++)
             {
                 Console.WriteLine($"{i + 1}." + Enemies[i].GetInfo());
             }
-            Console.WriteLine("Выберете номер врага (0 - выход в меню)");
+            Console.WriteLine("Select enemy's number (0 - exit to menu)");
             int EnemyNumber = int.Parse(Console.ReadLine());
             if (EnemyNumber == 0) return;
             Enemy enemy = Enemies[EnemyNumber - 1];
             while (enemy.Hp > 0 && player.Hp > 0)
             {
                 Console.Clear();
-                Console.WriteLine("Игрок атакует...");
+                Console.WriteLine("Player attacks...");
                 int enemyHPBeforeAttack = enemy.Hp;
-                Thread.Sleep(2500);
+                Thread.Sleep(player.AttackSpeed);
                 player.Attack(enemy);
-                Console.WriteLine($"Нанесено урона: {enemyHPBeforeAttack - enemy.Hp}");
+                Console.WriteLine($"Damage done: {enemyHPBeforeAttack - enemy.Hp}");
                 if (enemy.Hp > 0)
                 {
-                    Console.WriteLine("Враг атакует...");
+                    Console.WriteLine("Enemy attacks...");
                     int playerHPBeforeAttack = player.Hp;
                     Thread.Sleep(4000);
                     enemy.Attack(player);
-                    Console.WriteLine($"Получено урона: {playerHPBeforeAttack - player.Hp}");
-                    Console.WriteLine($"Ваше здоровье: {player.Hp}");
-                    Console.WriteLine($"Здоровье противника: {enemy.Hp}");
+                    Console.WriteLine($"Damage taken: {playerHPBeforeAttack - player.Hp}");
+                    Console.WriteLine($"Your hp: {player.Hp}");
+                    Console.WriteLine($"Enemy's hp: {enemy.Hp}");
                     if (player.Hp <= 0)
                     {
-                        Console.WriteLine($"Победитель: {enemy.Name}");
+                        Console.WriteLine($"Winner: {enemy.Name}");
                         break;
                     }
-                    Console.WriteLine("Подлечиться? (1 - да, 2 - нет)");
+                    Console.WriteLine("Heal? (1 - да, 2 - нет)");
                     var Healchoice = int.Parse(Console.ReadLine());
                     if (Healchoice == 2) continue;
                     else if (Healchoice == 1) player.Heal();
                 }
-                else Console.WriteLine("Победитель: игрок");
-                Console.WriteLine("Нажмите любую кнопку для продолжения...");
+                else Console.WriteLine("Winner: player");
+                Console.WriteLine("Prees any key to continue...");
                 Console.ReadKey();
             }
             player.LevelUp(enemy.Lvl, enemy.Gold);
@@ -67,26 +68,34 @@
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Player player = null;
             Store store = new Store();
-            Console.WriteLine("Введите количество здоровья");
-            int HP = int.Parse(Console.ReadLine());
-            Console.WriteLine("Введите уровень");
-            int LVL = int.Parse(Console.ReadLine());
-            Console.WriteLine("Введите количество наносимого урона");
-            int Damage = int.Parse(Console.ReadLine());
-            Player player = new Player(HP, LVL, Damage);
+            PlayerFactory playerFactory = new();
+            Console.WriteLine("Select class:");
+            Console.WriteLine("1. Knight");
+            Console.WriteLine("2. Knight");
+            Console.WriteLine("3. Knight");
+            var classChoice = int.Parse(Console.ReadLine());
+            Console.WriteLine("Set default parameters? (0 - no; 1 - yes)");
+            var defaultPlayer = Convert.ToBoolean(int.Parse(Console.ReadLine()));
+            if (classChoice == 1 && defaultPlayer) player = playerFactory.CreateDefaultKnight();
+            if (classChoice == 1 && !defaultPlayer) player = playerFactory.CreateKnight();
+            if (classChoice == 2 && defaultPlayer) player = playerFactory.CreateDefaultAssassin();
+            if (classChoice == 2 && !defaultPlayer) player = playerFactory.CreateAssassin();
+            if (classChoice == 3 && defaultPlayer) player = playerFactory.CreateDefaultNinja();
+            if (classChoice == 3 && !defaultPlayer) player = playerFactory.CreateNinja();
             while (player.Hp > 0)
             {
                 Console.Clear();
-                Console.WriteLine("----- Меню -----");
-                Console.WriteLine("0. Выйти из игры");
+                Console.WriteLine("----- Menu -----");
+                Console.WriteLine("0. Exit from game");
                 Console.WriteLine("1. Сразится с врагом");
-                Console.WriteLine("2. Купить предмет");
-                Console.WriteLine("3. Продать предмет");
-                Console.WriteLine("4. Использовать предмет");
-                Console.WriteLine("5. Посмотреть инвентарь\n");
+                Console.WriteLine("2. Buy item");
+                Console.WriteLine("3. Sell item");
+                Console.WriteLine("4. Use item");
+                Console.WriteLine("5. View inventory\n");
 
-                Console.WriteLine("----- Состояние -----");
+                Console.WriteLine("----- Player's info -----");
                 Console.WriteLine(player.GetInfo());
 
                 int choice = int.Parse(Console.ReadLine());
