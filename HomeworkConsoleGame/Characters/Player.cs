@@ -2,16 +2,17 @@
 
 internal class Player : Character
 {
-    private const int DefaultGold = 200;
+    protected const int DefaultGold = 200;
 
-    private int _maxHp;
-    private readonly List<IEquippable> _inventory = new();
-    private readonly Dictionary<EquipmentType, IEquippable?> _equipped = new();
+    protected int _maxHp;
+    protected readonly List<IEquippable> _inventory = new();
+    protected readonly Dictionary<EquipmentType, IEquippable?> _equipped = new();
+    public List<EquipmentSize> AllowableSize { get; init; }
 
-    public Player(int hp, int lvl, int damage) : base(hp, lvl, damage)
+    public Player(int hp, int lvl, int damage, string name, List<EquipmentSize> allowableSize, int attackSpeed = 2500) : base(hp, lvl, damage, name, DefaultGold, attackSpeed)
     {
         _maxHp = Hp;
-        Gold = DefaultGold;
+        AllowableSize = allowableSize;
     }
 
     public void Heal()
@@ -62,7 +63,7 @@ internal class Player : Character
     {
         int goldFromSelling = 0;
         ShowInventory(false);
-        Console.WriteLine("Выберите предмет на продажу (номер, начиная с 1; 0 - все; -1 - отмена");
+        Console.WriteLine("Выберите item на продажу (номер, начиная с 1; 0 - все; -1 - отмена");
         int choice = int.Parse(Console.ReadLine());
 
         if (choice > _inventory.Count)
@@ -105,7 +106,7 @@ internal class Player : Character
             Console.WriteLine($"{i + 1}. " + accessibleItems[i]);
         }
 
-        Console.WriteLine("Введите номер предмета, который хотите использовать (начиная с 1; 0 - выход в меню)");
+        Console.WriteLine("Введите номер itemа, который хотите использовать (начиная с 1; 0 - выход в меню)");
         int choice = int.Parse(Console.ReadLine());
         if (choice == 0) return;
         Equip(accessibleItems[choice - 1]);
@@ -113,7 +114,7 @@ internal class Player : Character
 
     public void AddToInventory(IEquippable item) => _inventory.Add(item);
     
-    private void UseItems()
+    protected void UseItems()
     {
         foreach (var i in _equipped.Where(i => i.Value != null))
         {

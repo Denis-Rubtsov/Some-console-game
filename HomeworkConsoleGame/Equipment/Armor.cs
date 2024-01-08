@@ -15,6 +15,8 @@ namespace HomeworkConsoleGame
         public int Coast { get; private set; }
         public EquipmentType EquipmentType { get; private init; }
 
+        public EquipmentSize Size => _equipmentSize;
+
         public Armor(EquipmentType equipmentType, EquipmentSize equipmentSize)
         {
             EquipmentType = equipmentType;
@@ -37,13 +39,13 @@ namespace HomeworkConsoleGame
 
         private void SetProtection()
         {
-            this.Protection = this._equipmentSize switch
+            Protection = _equipmentSize switch
             {
                 EquipmentSize.Small => 4,
                 EquipmentSize.Medium => 8,
                 EquipmentSize.Large => 12,
                 EquipmentSize.ExtraLarge => 24,
-                _ => this.Protection
+                _ => Protection
             };
         }
 
