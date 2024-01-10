@@ -51,7 +51,7 @@ namespace HomeworkConsoleGame
                 }
                 else
                 {
-                    if (player.AllowableSize.Contains(_items[choice - 1].Size))
+                    if (player.AllowableSizes.Contains(_items[choice - 1].Size))
                     {
                         player.AddToInventory(_items[choice - 1]);
                         player.Gold -= _items[choice - 1].Coast;

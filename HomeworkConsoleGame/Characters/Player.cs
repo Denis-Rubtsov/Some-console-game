@@ -7,12 +7,14 @@ internal class Player : Character
     protected int _maxHp;
     protected readonly List<IEquippable> _inventory = new();
     protected readonly Dictionary<EquipmentType, IEquippable?> _equipped = new();
-    public List<EquipmentSize> AllowableSize { get; init; }
+    public virtual List<EquipmentSize> AllowableSizess { get; init; };
+    public override int Gold { get; set; } = 200;
 
-    public Player(int hp, int lvl, int damage, string name, List<EquipmentSize> allowableSize, int attackSpeed = 2500) : base(hp, lvl, damage, name, DefaultGold, attackSpeed)
+    public Player(string name, List<EquipmentSize> allowableSizes)
     {
         _maxHp = Hp;
-        AllowableSize = allowableSize;
+        AllowableSizes = allowableSizes;
+        Name = name;
     }
 
     public void Heal()
@@ -43,7 +45,7 @@ internal class Player : Character
             Console.WriteLine($"{i + 1}. " + _inventory[i].GetInfo());
         }
 
-        Console.WriteLine("\nИспользуется:");
+        Console.WriteLine("\nEquipped:");
         foreach (var i in _equipped)
         {
             if (i.Value != null)
@@ -54,7 +56,7 @@ internal class Player : Character
 
         if (fromMenu)
         {
-            Console.WriteLine("Нажмите любую клавишу...");
+            Console.WriteLine("Press any key...");
             Console.ReadKey();
         }
     }
@@ -63,12 +65,12 @@ internal class Player : Character
     {
         int goldFromSelling = 0;
         ShowInventory(false);
-        Console.WriteLine("Выберите item на продажу (номер, начиная с 1; 0 - все; -1 - отмена");
+        Console.WriteLine("Select the number of item for sale (beggining with 1; 0 - sell all items; -1 - cancel sale");
         int choice = int.Parse(Console.ReadLine());
 
         if (choice > _inventory.Count)
         {
-            Console.WriteLine("lox");
+            Console.WriteLine("There is no item with this number");
             return;
         }
         
@@ -106,7 +108,7 @@ internal class Player : Character
             Console.WriteLine($"{i + 1}. " + accessibleItems[i]);
         }
 
-        Console.WriteLine("Введите номер itemа, который хотите использовать (начиная с 1; 0 - выход в меню)");
+        Console.WriteLine("Enter the number of the item you want to use (beggining with 1; 0 - exit)");
         int choice = int.Parse(Console.ReadLine());
         if (choice == 0) return;
         Equip(accessibleItems[choice - 1]);

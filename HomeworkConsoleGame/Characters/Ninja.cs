@@ -5,7 +5,12 @@ namespace HomeworkConsoleGame.Characters
 {
 	internal class Ninja : Player
 	{
-		public Ninja(string name, int hp = 100, int lvl = 1, int damage = 56, int attackSpeed = 2500) : base(hp, lvl, damage, name, new List<EquipmentSize>() { EquipmentSize.Medium, EquipmentSize.Small }, attackSpeed)
+        public override int Hp { get; set; } = 100;
+        public override int Lvl { get; set; } = 1;
+        public override int Damage { get; set; } = 42;
+        public override int AttackSpeed { get; set; } = 2400;
+
+        public Ninja(string name) : base(name, new List<EquipmentSize>() { EquipmentSize.Medium, EquipmentSize.Small })
         {
 		}
 	}

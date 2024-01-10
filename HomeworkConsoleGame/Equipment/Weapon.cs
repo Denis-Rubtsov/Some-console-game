@@ -50,7 +50,7 @@ namespace HomeworkConsoleGame
 
         public string GetInfo()
         {
-            return $"Оружие размер: {_equipmentSize}, стоимость: {Coast}, атака: +{AttackDamage}%";
+            return $"Weapon size: {_equipmentSize}, coast: {Coast}, damage: +{AttackDamage}%";
         }
     }
 }

@@ -53,7 +53,7 @@ namespace HomeworkConsoleGame
                         Console.WriteLine($"Winner: {enemy.Name}");
                         break;
                     }
-                    Console.WriteLine("Heal? (1 - да, 2 - нет)");
+                    Console.WriteLine("Do you want to heal? (1 - yes, 2 - no)");
                     var Healchoice = int.Parse(Console.ReadLine());
                     if (Healchoice == 2) continue;
                     else if (Healchoice == 1) player.Heal();
@@ -73,17 +73,15 @@ namespace HomeworkConsoleGame
             PlayerFactory playerFactory = new();
             Console.WriteLine("Select class:");
             Console.WriteLine("1. Knight");
-            Console.WriteLine("2. Knight");
-            Console.WriteLine("3. Knight");
+            Console.WriteLine("2. Assassin");
+            Console.WriteLine("3. Ninja");
             var classChoice = int.Parse(Console.ReadLine());
-            Console.WriteLine("Set default parameters? (0 - no; 1 - yes)");
-            var defaultPlayer = Convert.ToBoolean(int.Parse(Console.ReadLine()));
-            if (classChoice == 1 && defaultPlayer) player = playerFactory.CreateDefaultKnight();
-            if (classChoice == 1 && !defaultPlayer) player = playerFactory.CreateKnight();
-            if (classChoice == 2 && defaultPlayer) player = playerFactory.CreateDefaultAssassin();
-            if (classChoice == 2 && !defaultPlayer) player = playerFactory.CreateAssassin();
-            if (classChoice == 3 && defaultPlayer) player = playerFactory.CreateDefaultNinja();
-            if (classChoice == 3 && !defaultPlayer) player = playerFactory.CreateNinja();
+            switch(classChoice)
+            {
+                case 1: player = playerFactory.CreateKnight(); break;
+                case 2: player = playerFactory.CreateAssassin(); break;
+                case 3: player = playerFactory.CreateNinja(); break;
+            }
             while (player.Hp > 0)
             {
                 Console.Clear();
