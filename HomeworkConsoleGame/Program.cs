@@ -87,7 +87,7 @@ namespace HomeworkConsoleGame
                 Console.Clear();
                 Console.WriteLine("----- Menu -----");
                 Console.WriteLine("0. Exit from game");
-                Console.WriteLine("1. Сразится с врагом");
+                Console.WriteLine("1. Fight the enemy");
                 Console.WriteLine("2. Buy item");
                 Console.WriteLine("3. Sell item");
                 Console.WriteLine("4. Use item");
