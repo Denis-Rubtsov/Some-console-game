@@ -42,25 +42,29 @@ namespace HomeworkConsoleGame
                 {
                     Console.WriteLine($"{i + 1}. " + _items[i].GetInfo());
                 }
-                Console.WriteLine("Выберите предмет (номер, начиная с 1; 0 - выход)");
+                Console.WriteLine("Select item (number, beginning with 1; 0 - exit)");
                 var choice = int.Parse(Console.ReadLine());
                 if (choice == 0) return;
                 if (_items[choice - 1].Coast > player.Gold)
                 {
-                    Console.WriteLine("Недостаточно золота!");
+                    Console.WriteLine("Not enough gold!");
                 }
                 else
                 {
-                    player.AddToInventory(_items[choice - 1]);
-                    player.Gold -= _items[choice - 1].Coast;
-                    Console.WriteLine("Использовать? (1 - да, 2 -нет)");
-                    var equip = int.Parse(Console.ReadLine());
-                    if (equip == 1)
+                    if (player.AllowableSizes.Contains(_items[choice - 1].Size))
                     {
-                        player.Equip(_items[choice - 1]);
-                    }
+                        player.AddToInventory(_items[choice - 1]);
+                        player.Gold -= _items[choice - 1].Coast;
+                        Console.WriteLine("Use item? (1 - yes, 2 - no)");
+                        var equip = int.Parse(Console.ReadLine());
+                        if (equip == 1)
+                        {
+                            player.Equip(_items[choice - 1]);
+                        }
 
-                    _items.RemoveAt(choice - 1);
+                        _items.RemoveAt(choice - 1);
+                    }
+                    else Console.WriteLine("Invalid size!");
                 }
             }
         }

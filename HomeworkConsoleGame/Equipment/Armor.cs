@@ -8,24 +8,25 @@ namespace HomeworkConsoleGame
 {
     internal class Armor : IEquippable
     {
-        private readonly EquipmentSize _equipmentSize;
         int Protection;
         public int Parameter => Protection;
 
         public int Coast { get; private set; }
         public EquipmentType EquipmentType { get; private init; }
 
+        public EquipmentSize Size { get; private set; };
+
         public Armor(EquipmentType equipmentType, EquipmentSize equipmentSize)
         {
             EquipmentType = equipmentType;
-            _equipmentSize = equipmentSize;
+            Size = equipmentSize;
             SetCoast();
             SetProtection();
         }
 
         private void SetCoast()
         {
-            Coast = _equipmentSize switch
+            Coast = Size switch
             {
                 EquipmentSize.Small => 100,
                 EquipmentSize.Medium => 250,
@@ -37,19 +38,19 @@ namespace HomeworkConsoleGame
 
         private void SetProtection()
         {
-            this.Protection = this._equipmentSize switch
+            Protection = Size switch
             {
                 EquipmentSize.Small => 4,
                 EquipmentSize.Medium => 8,
                 EquipmentSize.Large => 12,
                 EquipmentSize.ExtraLarge => 24,
-                _ => this.Protection
+                _ => Protection
             };
         }
 
         public string GetInfo()
         {
-            return $"Тип: {EquipmentType}, размер: {_equipmentSize}, стоимость: {Coast}, защита: {Protection}%";
+            return $"Type: {EquipmentType}, Size: {_equipmentSize}, Coast: {Coast}, Protection: {Protection}%";
         }
     }
 }

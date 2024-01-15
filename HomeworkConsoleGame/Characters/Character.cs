@@ -6,22 +6,27 @@ using System.Threading.Tasks;
 
 public abstract class Character
 {
-    public int Hp { get; set; }
-    public int Lvl { get; set; }
-    public int Damage { get; set; }
-    public int Gold { get; set; }
+    public virtual int Hp { get; set; }
+    public virtual int Lvl { get; set; }
+    public virtual int Damage { get; set; }
+    public virtual int Gold { get; set; }
     public double GlobalProtection { get; set; }
+    public string Name { get; set; }
+    public virtual int AttackSpeed { get; set; }
 
-    public Character(int hp, int lvl, int damage)
+    public Character(int hp, int lvl, int damage, string name, int gold, int attackSpeed)
     {
         Hp = hp;
         Lvl = lvl;
         Damage = damage;
+        Name = name;
+        Gold = gold;
+        AttackSpeed = attackSpeed;
     }
 
-    public virtual string GetInfo()
+    public string GetInfo()
     {
-        return $"Здоровье: {Hp}, уровень: {Lvl}, урон: {Damage}, золото: {Gold}";
+        return $"{Name}   hp: {Hp}, level: {Lvl}, damage: {Damage}, gold: {Gold}";
     }
 
     public void Attack(Character target)

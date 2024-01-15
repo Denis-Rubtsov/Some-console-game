@@ -6,48 +6,51 @@ using System.Threading.Tasks;
 
 namespace HomeworkConsoleGame
 {
-    internal struct Weapon : IEquippable
+    internal class Weapon : IEquippable
     {
-        EquipmentType _equipmentType = EquipmentType.Weapon;
-        public EquipmentSize EquipmentSize;
-        public int coast;
+        private EquipmentType _equipmentType = EquipmentType.Weapon;
+        private EquipmentSize _equipmentSize;
         int AttackDamage;
-        public int Parameter { get { return this.AttackDamage; } }
-        public int Coast
-        {
-            get
-            {
-                return this.coast;
-            }
-        }
+        public int Parameter { get { return AttackDamage; } }
+        public int Coast { get; private set; }
         public EquipmentType EquipmentType {get {return _equipmentType;}}
+
+        public EquipmentSize Size => _equipmentSize;
 
         public Weapon(EquipmentSize equipmentSize)
         {
-            EquipmentSize = equipmentSize;
+            _equipmentSize = equipmentSize;
             SetCoast();
             SetAttackDamage();
         }
 
         void SetCoast()
         {
-            if (this.EquipmentSize == EquipmentSize.Small) this.coast = 50;
-            if (this.EquipmentSize == EquipmentSize.Medium) this.coast = 150;
-            if (this.EquipmentSize == EquipmentSize.Large) this.coast = 250;
-            if (this.EquipmentSize == EquipmentSize.ExtraLarge) this.coast = 350;
+            Coast = _equipmentSize switch
+            {
+                EquipmentSize.Small => 50,
+                EquipmentSize.Medium => 150,
+                EquipmentSize.Large => 250,
+                EquipmentSize.ExtraLarge => 350,
+                _ => Coast
+            };
         }
 
         void SetAttackDamage()
         {
-            if (this.EquipmentSize == EquipmentSize.Small) this.AttackDamage = 5;
-            if (this.EquipmentSize == EquipmentSize.Medium) this.AttackDamage = 10;
-            if (this.EquipmentSize == EquipmentSize.Large) this.AttackDamage = 15;
-            if (this.EquipmentSize == EquipmentSize.ExtraLarge) this.AttackDamage = 20;
+            AttackDamage = _equipmentSize switch
+            {
+                EquipmentSize.Small => 5,
+                EquipmentSize.Medium => 10,
+                EquipmentSize.Large => 15,
+                EquipmentSize.ExtraLarge => 20,
+                _ => Coast
+            };
         }
 
         public string GetInfo()
         {
-            return $"Оружие Размер: {EquipmentSize}, стоимость: {Coast}, атака: +{AttackDamage}%";
+            return $"Weapon size: {_equipmentSize}, coast: {Coast}, damage: +{AttackDamage}%";
         }
     }
 }
