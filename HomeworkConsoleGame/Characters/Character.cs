@@ -24,6 +24,8 @@ public abstract class Character
         AttackSpeed = attackSpeed;
     }
 
+    protected Character() { }
+
     public string GetInfo()
     {
         return $"{Name}   hp: {Hp}, level: {Lvl}, damage: {Damage}, gold: {Gold}";

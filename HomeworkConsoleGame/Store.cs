@@ -64,7 +64,7 @@ namespace HomeworkConsoleGame
 
                         _items.RemoveAt(choice - 1);
                     }
-                    else Console.WriteLine("Invalid size!");
+                    else { Console.WriteLine("Invalid size!"); Console.ReadKey(); }
                 }
             }
         }
