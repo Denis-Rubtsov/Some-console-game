@@ -5,8 +5,8 @@ internal class Player : Character
     protected const int DefaultGold = 200;
 
     protected int _maxHp;
-    protected readonly List<IEquippable> _inventory = new();
-    protected readonly Dictionary<EquipmentType, IEquippable?> _equipped = new();
+    protected List<IEquippable> _inventory = new();
+    protected Dictionary<EquipmentType, IEquippable?> _equipped = new();
     public virtual List<EquipmentSize> AllowableSizes { get; init; }
     public override int Gold { get; set; } = 200;
 

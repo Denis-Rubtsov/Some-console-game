@@ -48,6 +48,7 @@ namespace HomeworkConsoleGame
                 if (_items[choice - 1].Coast > player.Gold)
                 {
                     Console.WriteLine("Not enough gold!");
+                    Console.ReadKey();
                 }
                 else
                 {
