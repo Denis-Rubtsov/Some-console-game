@@ -48,6 +48,7 @@ namespace HomeworkConsoleGame
                 if (_items[choice - 1].Coast > player.Gold)
                 {
                     Console.WriteLine("Not enough gold!");
+                    Console.ReadKey();
                 }
                 else
                 {
@@ -64,7 +65,7 @@ namespace HomeworkConsoleGame
 
                         _items.RemoveAt(choice - 1);
                     }
-                    else Console.WriteLine("Invalid size!");
+                    else { Console.WriteLine("Invalid size!"); Console.ReadKey(); }
                 }
             }
         }

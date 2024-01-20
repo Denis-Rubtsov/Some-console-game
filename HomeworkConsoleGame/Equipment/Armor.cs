@@ -14,7 +14,7 @@ namespace HomeworkConsoleGame
         public int Coast { get; private set; }
         public EquipmentType EquipmentType { get; private init; }
 
-        public EquipmentSize Size { get; private set; };
+        public EquipmentSize Size { get; private set; }
 
         public Armor(EquipmentType equipmentType, EquipmentSize equipmentSize)
         {
@@ -50,7 +50,7 @@ namespace HomeworkConsoleGame
 
         public string GetInfo()
         {
-            return $"Type: {EquipmentType}, Size: {_equipmentSize}, Coast: {Coast}, Protection: {Protection}%";
+            return $"Type: {EquipmentType}, Size: {Size}, Coast: {Coast}, Protection: {Protection}%";
         }
     }
 }
