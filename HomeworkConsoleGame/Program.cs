@@ -1,4 +1,5 @@
 ﻿using HomeworkConsoleGame.Characters;
+using System.Net.Http.Headers;
 namespace HomeworkConsoleGame
 {
     internal class Program
@@ -6,7 +7,7 @@ namespace HomeworkConsoleGame
         static List<Enemy> GetEnemies(Character character)
         {
             EnemyFactory enemyFactory = new EnemyFactory();
-            string[] names = { "Rufus", "Bear", "Dakota", "Fido", "Vanya", "Samuel", "Koani", "Volodya", "Yiska", "Maggie", "Penny", "Saya", "Princess", "Abby", "Laila", "Sadie", "Olivia", "Starlight", "Talla" };
+            string[] names = { "Rufus", "Bear", "Dakota", "Fido", "Vanya", "Samuel", "Koani", "Volodya", "Yiska", "Maggie", "Penny", "Saya", "Princess", "Abby", "Laila", "Sadie", "Olivia", "Starlight", "Talla", "Robert de Sablé", "Cesare Borgia", "Charles Lee", "Vieri Pazzi" };
             Random random = new Random();
             List<Enemy> list = new List<Enemy>();
             for (int i = 1; i <= 3; i++)
@@ -60,17 +61,28 @@ namespace HomeworkConsoleGame
             while (enemy.Hp > 0 && player.Hp > 0)
             {
                 Console.Clear();
+                Console.WriteLine("Select attack direction");
+                Console.WriteLine("1. Head");
+                Console.WriteLine("2. Torso");
+                Console.WriteLine("3. Hands");
+                Console.WriteLine("4. Legs");
+                var attackDirectionChoice = int.Parse(Console.ReadLine());
+                var attackDirection = (AttackDirections)attackDirectionChoice;
                 Console.WriteLine("Player attacks...");
                 int enemyHPBeforeAttack = enemy.Hp;
                 Thread.Sleep(player.AttackSpeed);
-                player.Attack(enemy);
+                try { player.Attack(enemy, attackDirection); }
+                catch{Console.WriteLine("You missed");}
                 Console.WriteLine($"Damage done: {enemyHPBeforeAttack - enemy.Hp}");
                 if (enemy.Hp > 0)
                 {
+                    Random random = new();
                     Console.WriteLine("Enemy attacks...");
                     int playerHPBeforeAttack = player.Hp;
-                    Thread.Sleep(4000);
-                    enemy.Attack(player);
+                    Thread.Sleep(enemy.AttackSpeed);
+                    var enemyAttackDirection = (AttackDirections)random.Next(1, 5);
+                    try { enemy.Attack(player, enemyAttackDirection); }
+                    catch { Console.WriteLine("Enemy missed"); }
                     Console.WriteLine($"Damage taken: {playerHPBeforeAttack - player.Hp}");
                     Console.WriteLine($"Your hp: {player.Hp}");
                     Console.WriteLine($"Enemy's hp: {enemy.Hp}");
