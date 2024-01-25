@@ -10,28 +10,9 @@ namespace HomeworkConsoleGame
     {
         readonly List<IEquippable> _items = new();
 
-        public Store()
+        public Store(List<IEquippable> items)
         {
-            _items.Add(new Armor(EquipmentType.Helmet,EquipmentSize.Small));
-            _items.Add(new Armor(EquipmentType.Helmet,EquipmentSize.Medium));
-            _items.Add(new Armor(EquipmentType.Helmet,EquipmentSize.Large));
-            _items.Add(new Armor(EquipmentType.Helmet,EquipmentSize.ExtraLarge));
-            _items.Add(new Armor(EquipmentType.Bib, EquipmentSize.Small));
-            _items.Add(new Armor(EquipmentType.Bib, EquipmentSize.Medium));
-            _items.Add(new Armor(EquipmentType.Bib, EquipmentSize.Large));
-            _items.Add(new Armor(EquipmentType.Bib, EquipmentSize.ExtraLarge));
-            _items.Add(new Armor(EquipmentType.Leggins, EquipmentSize.Small));
-            _items.Add(new Armor(EquipmentType.Leggins, EquipmentSize.Medium));
-            _items.Add(new Armor(EquipmentType.Leggins, EquipmentSize.Large));
-            _items.Add(new Armor(EquipmentType.Leggins, EquipmentSize.ExtraLarge));
-            _items.Add(new Armor(EquipmentType.Boots, EquipmentSize.Small));
-            _items.Add(new Armor(EquipmentType.Boots, EquipmentSize.Medium));
-            _items.Add(new Armor(EquipmentType.Boots, EquipmentSize.Large));
-            _items.Add(new Armor(EquipmentType.Boots, EquipmentSize.ExtraLarge));
-            _items.Add(new Weapon(EquipmentSize.Small));
-            _items.Add(new Weapon(EquipmentSize.Medium));
-            _items.Add(new Weapon(EquipmentSize.Large));
-            _items.Add(new Weapon(EquipmentSize.ExtraLarge));
+            _items = items;
         }
         public void Buy(Player player)
         {

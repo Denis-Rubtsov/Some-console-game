@@ -8,6 +8,7 @@ internal class Player : Character
     protected List<IEquippable> _inventory = new();
     protected Dictionary<EquipmentType, IEquippable?> _equipped = new();
     protected override double CriticalDamageCoefficient { get; set; } = 2.5;
+    public Position Position;
     public virtual List<EquipmentSize> AllowableSizes { get; init; }
     public override int Gold { get; set; } = 200;
 
