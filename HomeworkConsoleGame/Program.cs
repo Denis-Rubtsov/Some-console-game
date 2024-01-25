@@ -4,60 +4,86 @@ namespace HomeworkConsoleGame
 {
     internal class Program
     {
-        static List<Enemy> GetEnemies(Character character)
+        static List<IEquippable> SellingItems()
+        {
+            Random random = new();
+            List<IEquippable> defaultItems = new();
+            defaultItems.Add(new Armor(EquipmentType.Helmet, EquipmentSize.Small));
+            defaultItems.Add(new Armor(EquipmentType.Helmet, EquipmentSize.Medium));
+            defaultItems.Add(new Armor(EquipmentType.Helmet, EquipmentSize.Large));
+            defaultItems.Add(new Armor(EquipmentType.Helmet, EquipmentSize.ExtraLarge));
+            defaultItems.Add(new Armor(EquipmentType.Bib, EquipmentSize.Small));
+            defaultItems.Add(new Armor(EquipmentType.Bib, EquipmentSize.Medium));
+            defaultItems.Add(new Armor(EquipmentType.Bib, EquipmentSize.Large));
+            defaultItems.Add(new Armor(EquipmentType.Bib, EquipmentSize.ExtraLarge));
+            defaultItems.Add(new Armor(EquipmentType.Leggins, EquipmentSize.Small));
+            defaultItems.Add(new Armor(EquipmentType.Leggins, EquipmentSize.Medium));
+            defaultItems.Add(new Armor(EquipmentType.Leggins, EquipmentSize.Large));
+            defaultItems.Add(new Armor(EquipmentType.Leggins, EquipmentSize.ExtraLarge));
+            defaultItems.Add(new Armor(EquipmentType.Boots, EquipmentSize.Small));
+            defaultItems.Add(new Armor(EquipmentType.Boots, EquipmentSize.Medium));
+            defaultItems.Add(new Armor(EquipmentType.Boots, EquipmentSize.Large));
+            defaultItems.Add(new Armor(EquipmentType.Boots, EquipmentSize.ExtraLarge));
+            defaultItems.Add(new Weapon(EquipmentSize.Small));
+            defaultItems.Add(new Weapon(EquipmentSize.Medium));
+            defaultItems.Add(new Weapon(EquipmentSize.Large));
+            defaultItems.Add(new Weapon(EquipmentSize.ExtraLarge));
+            var maxItems = defaultItems.Count;
+            List<IEquippable> itemsToSale = new();
+            for (int i = 0; i < random.Next(1,maxItems); i++)
+            {
+                var index = random.Next(-1, defaultItems.Count);
+                if (index == -1) continue;
+                itemsToSale.Add(defaultItems[index]);
+            }
+            return itemsToSale;
+        }
+        static Enemy GenerateEnemy(Character character, bool isBoss)
         {
             EnemyFactory enemyFactory = new EnemyFactory();
             string[] names = { "Rufus", "Bear", "Dakota", "Fido", "Vanya", "Samuel", "Koani", "Volodya", "Yiska", "Maggie", "Penny", "Saya", "Princess", "Abby", "Laila", "Sadie", "Olivia", "Starlight", "Talla", "Robert de Sablé", "Cesare Borgia", "Charles Lee", "Vieri Pazzi" };
             Random random = new Random();
-            List<Enemy> list = new List<Enemy>();
+            Enemy enemy = null;
             for (int i = 1; i <= 3; i++)
             {
-                int enemyGenerationSeed = random.Next(1,101);
-                if(enemyGenerationSeed >= 1 && enemyGenerationSeed <= 80)
+                if (!isBoss)
                 {
-                    list.Add(enemyFactory.CreateDefaultEnemy(names[random.Next(0, names.Length)],
-                                                         random.Next(character.Hp, character.Hp + 100),
-                                                         random.Next(character.Lvl, character.Lvl + 10),
-                                                         random.Next(character.Damage, character.Damage + 5),
-                                                         random.Next(100, 500),
-                                                         random.Next(2500, 3000)));
+                    int enemyGenerationSeed = random.Next(1, 101);
+                    if (enemyGenerationSeed >= 1 && enemyGenerationSeed <= 80)
+                    {
+                        enemy = enemyFactory.CreateDefaultEnemy(names[random.Next(0, names.Length)],
+                                                             random.Next(character.Hp, character.Hp + 100),
+                                                             random.Next(character.Lvl, character.Lvl + 10),
+                                                             random.Next(character.Damage, character.Damage + 5),
+                                                             random.Next(100, 500),
+                                                             random.Next(2500, 3000));
+                    }
+                    if (enemyGenerationSeed >= 81 && enemyGenerationSeed <= 100)
+                    {
+                        enemy = enemyFactory.CreateMiniBoss(names[random.Next(0, names.Length)],
+                                                             random.Next(2 * character.Hp, 2 * character.Hp + 100),
+                                                             random.Next(character.Lvl, character.Lvl + 10),
+                                                             random.Next(character.Damage, character.Damage + 10),
+                                                             random.Next(100, 500),
+                                                             random.Next(2500, 3000));
+                    }
                 }
-                if (enemyGenerationSeed >= 81 && enemyGenerationSeed <= 91)
+                if (isBoss)
                 {
-                    list.Add(enemyFactory.CreateMiniBoss(names[random.Next(0, names.Length)],
-                                                         random.Next(2 * character.Hp, 2 * character.Hp + 100),
-                                                         random.Next(character.Lvl, character.Lvl + 10),
-                                                         random.Next(character.Damage, character.Damage + 10),
-                                                         random.Next(100, 500),
-                                                         random.Next(2500, 3000)));
-                }
-                if (enemyGenerationSeed >= 92 && enemyGenerationSeed <= 101)
-                {
-                    list.Add(enemyFactory.CreateBoss(names[random.Next(0, names.Length)],
+                    enemy = enemyFactory.CreateBoss(names[random.Next(0, names.Length)],
                                                          random.Next(3 * character.Hp, 3 * character.Hp + 100),
                                                          random.Next(character.Lvl, character.Lvl + 10),
                                                          random.Next(character.Damage, character.Damage + 20),
                                                          random.Next(100, 500),
-                                                         random.Next(2500, 3000)));
+                                                         random.Next(2500, 3000));
                 }
             }
-            return list;
+            return enemy;
         }
-        static void Battle(Player player)
+        static void Battle(Player player, Enemy enemy)
         {
-            int choice;
             Console.Clear();
-            List<Enemy> Enemies = GetEnemies(player);
             Console.WriteLine(player.GetInfo());
-            Console.WriteLine("Enemies' info:");
-            for (int i = 0; i < Enemies.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}." + Enemies[i].GetInfo());
-            }
-            Console.WriteLine("Select enemy's number (0 - exit to menu)");
-            int EnemyNumber = int.Parse(Console.ReadLine());
-            if (EnemyNumber == 0) return;
-            Enemy enemy = Enemies[EnemyNumber - 1];
             while (enemy.Hp > 0 && player.Hp > 0)
             {
                 Console.Clear();
@@ -106,9 +132,20 @@ namespace HomeworkConsoleGame
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            List<string> maps = new List<string>() {"Map1.txt", "Map2.txt", "Map3.txt", "Map4.txt"};
+            string path = "";
+            Map map = new();
             Player player = null;
-            Store store = new Store();
+            int completedLevels = 0;
+            bool died = false;
+            Store store;
+            foreach (var i in Directory.GetCurrentDirectory().Split('\\'))
+            {
+                if (i == "bin") { break; }
+                path += $"{i}\\";
+            }
             PlayerFactory playerFactory = new();
+            Console.WriteLine(path);
             Console.WriteLine("Select class:");
             Console.WriteLine("1. Knight");
             Console.WriteLine("2. Assassin");
@@ -120,31 +157,93 @@ namespace HomeworkConsoleGame
                 case 2: player = playerFactory.CreateAssassin(); break;
                 case 3: player = playerFactory.CreateNinja(); break;
             }
-            while (player.Hp > 0)
+            Random random = new();
+            for (int i = 0; i < maps.Count; i++)
             {
-                Console.Clear();
-                Console.WriteLine("----- Menu -----");
-                Console.WriteLine("0. Exit from game");
-                Console.WriteLine("1. Fight the enemy");
-                Console.WriteLine("2. Buy item");
-                Console.WriteLine("3. Sell item");
-                Console.WriteLine("4. Use item");
-                Console.WriteLine("5. View inventory\n");
-
-                Console.WriteLine("----- Player's info -----");
-                Console.WriteLine(player.GetInfo());
-
-                int choice = int.Parse(Console.ReadLine());
-                if (choice == 0) break;
-                else if (choice == 1)
+                map.LoadMapFromFile($"{path}\\Resources\\" + maps[i]);
+                player.Position = new(1, 1);
+                while(!died)
                 {
-                    Battle(player);
+                    Console.Clear();
+                    map.PrintMap();
+                    var key = Console.ReadKey();
+                    try
+                    {
+                        switch (key.Key)
+                        {
+                            case ConsoleKey.W:
+                                player.Gold += map.MovePlayer(ref player.Position, player.Position.Plus(0, -1));
+                                break;
+                            case ConsoleKey.S:
+                                player.Gold += map.MovePlayer(ref player.Position, player.Position.Plus(0, 1));
+                                break;
+                            case ConsoleKey.A:
+                                player.Gold += map.MovePlayer(ref player.Position, player.Position.Plus(-1, 0));
+                                break;
+                            case ConsoleKey.D:
+                                player.Gold += map.MovePlayer(ref player.Position, player.Position.Plus(1, 0));
+                                break;
+                        }
+                    }
+                    catch (BattleException)
+                    {
+                        var enemy = GenerateEnemy(player, false);
+                        Battle(player, enemy);
+                        if (player.Hp <= 0) died = true;
+                    }
+                    catch (BossBattleException)
+                    {
+                        var boss = GenerateEnemy(player, true);
+                        Battle(player, boss);
+                    }
+                    catch (StoreException)
+                    {
+                        store = new(SellingItems());
+                        store.Buy(player);
+                    }
+                    catch (EndOfLevelException)
+                    {
+                        break;
+                    }
+                    if (random.Next(1, 101) <= 30) map.MoveEnemy();
+                    if (player.Hp <= 0) died = true;
                 }
-                else if (choice == 2) store.Buy(player);
-                else if (choice == 3) player.Sell();
-                else if (choice == 4) player.EquipItemFromInventory();
-                else if (choice == 5) player.ShowInventory(true);
+                if (died)
+                {
+                    Console.WriteLine("Game over");
+                    break;
+                }
+                completedLevels++;
             }
+            if (completedLevels == 4)
+            {
+                Console.WriteLine("You won!");
+            }
+            //while (player.Hp > 0)
+            //{
+                //Console.Clear();
+                //Console.WriteLine("----- Menu -----");
+                //Console.WriteLine("0. Exit from game");
+                //Console.WriteLine("1. Fight the enemy");
+                //Console.WriteLine("2. Buy item");
+                //Console.WriteLine("3. Sell item");
+                //Console.WriteLine("4. Use item");
+                //Console.WriteLine("5. View inventory\n");
+
+                //Console.WriteLine("----- Player's info -----");
+                //Console.WriteLine(player.GetInfo());
+
+                //int choice = int.Parse(Console.ReadLine());
+                //if (choice == 0) break;
+                //else if (choice == 1)
+                //{
+                    //Battle(player);
+                //}
+                //else if (choice == 2) store.Buy(player);
+                //else if (choice == 3) player.Sell();
+                //else if (choice == 4) player.EquipItemFromInventory();
+                //else if (choice == 5) player.ShowInventory(true);
+            //}
             Console.ReadKey();
         }
     }
